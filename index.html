@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vehicle Tracking</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: url('https://images.drivespark.com/img/2024/10/mtc-low-floor-buses-flagged-off-cover-1729060574.jpg') no-repeat center center/cover;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.overlay {
+    background: rgba(0, 0, 0, 0.7);
+    padding: 50px;
+    border-radius: 20px;
+    text-align: center;
+    color: white;
+    box-shadow: 0px 10px 40px rgba(0,0,0,0.9);
+}
+
+.input-box {
+    position: relative;
+    margin: 10px;
+}
+
+input {
+    padding: 12px;
+    width: 250px;
+    border-radius: 25px;
+    border: none;
+    outline: none;
+}
+
+.list {
+    position: absolute;
+    top: 45px;
+    left: 0;
+    width: 100%;
+    background: white;
+    color: black;
+    border-radius: 10px;
+    max-height: 150px;
+    overflow-y: auto;
+    z-index: 1000;
+}
+
+.list div {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+}
+
+.list div:hover {
+    background: #f1f1f1;
+}
+
+button {
+    padding: 12px 25px;
+    border-radius: 25px;
+    border: none;
+    background: #ffcc00;
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 15px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="overlay">
+
+    <h1>🚌 Real-Time Vehicle Tracking</h1>
+    <p>Find your bus easily</p>
+
+    <div class="input-box">
+        <input type="text" id="from" placeholder="From"
+        onkeyup="suggestFrom(this.value)" onclick="suggestFrom(this.value)" autocomplete="off">
+        <div id="fromList" class="list"></div>
+    </div>
+
+    <div class="input-box">
+        <input type="text" id="to" placeholder="To"
+        onkeyup="suggestTo(this.value)" onclick="suggestTo(this.value)" autocomplete="off">
+        <div id="toList" class="list"></div>
+    </div>
+
+    <button onclick="trackBus()">Track Bus</button>
+</div>
+
+<script>
+function trackBus() {
+    let from = document.getElementById("from").value.trim();
+    let to = document.getElementById("to").value.trim();
+
+    if(from === "" || to === "") {
+        alert("Please enter both locations");
+        return;
+    }
+
+    window.location.href = "map1.html?from=" + encodeURIComponent(from) + "&to=" + encodeURIComponent(to);
+}
+
+const places = [
+"Ariyalur","Chengalpattu","Chennai","Coimbatore","Cuddalore",
+"Dharmapuri","Dindigul","Erode","Kallakurichi","Kancheepuram",
+"Kanniyakumari","Karur","Krishnagiri","Madurai","Mayiladuthurai",
+"Nagapattinam","Namakkal","Perambalur","Pudukkottai",
+"Ramanathapuram","Ranipet","Salem","Sivaganga","Tenkasi",
+"Thanjavur","Theni","The Nilgiris","Thiruvallur","Thiruvarur",
+"Thoothukkudi","Tiruchirappalli","Tirunelveli","Tirupathur",
+"Tiruppur","Tiruvannamalai","Vellore","Viluppuram","Virudhunagar",
+
+// 🔥 Main towns
+"Mettupalayam","Pollachi","Valparai","Gudalur","Karamadai",
+"Karumathampatti","Madukkarai",
+
+// 🔥 Central Coimbatore
+"Townhall","Selvapuram","Rathinapuri","Tatabad","Sivananda Colony",
+"Gandhipuram","Ukkadam","Kottaimedu","Ramnagar","Sukrawarpettai",
+"R.S Puram","Saibaba Colony","Venkatapuram","Ponnairajapuram",
+"Race Course","Gopalapuram","Sidhapudur","Avarampalayam",
+
+// 🔥 South Coimbatore
+"Sundakkamuthur","Podanur","Karumbukadai","Sundarapuram",
+"Kurichi","Eachanari","Chettipalayam","Vellalore",
+"Kuniyamuthur","Sugunapuram","Kovaipudur","Sokkampudhur",
+"Thondamuthur","Madhampatti","Kuppanur",
+
+// 🔥 East Coimbatore
+"Ramnathapuram","Singanallur","Puliakulam","Ondipudur",
+"Varadarajapuram","Peelamedu","Meena Estate","Udayampalayam",
+"Nanjundapuram","Nehru Nagar","Vilankurichi","Ganapathy",
+"Cheranmanagar","Nallampalayam","Gandhimanagar",
+"Chinniampalayam","Sowripalayam","G.V Residency","Uppilipalayam",
+
+// 🔥 West Coimbatore
+"Perur","Vadavalli","Veerakeralam","Veedapatti",
+"P.N.Pudur","Kalveerampalayam",
+
+// 🔥 North Suburbs
+"Periyanaickenpalayam","Poochiyur","Ravathakollanur",
+
+// 🔥 North-West
+"Thadagam","Maruthamalai","Pannimadai",
+
+// 🔥 North-East
+"Saravanampatti","Kalapatti","Keeranatham","Pachapalayam",
+"Annur","Ganesapuram","Kariampalayam","Kovilpalayam","Kurumbapalayam",
+
+// 🔥 South-West
+"Walayar","K.G Chavadi","Ettimadai","Odaiyakulam",
+"Thirumalayampalayam",
+
+// 🔥 East Suburbs
+"Neelambur","Somanur","Irugur","Sulur",
+
+// 🔥 West Suburbs
+"Pooluvapatti","Karunya Nagar","Thenkarai","Narasipuram",
+"Puthur","Alanthurai",
+
+// 🔥 South Suburbs
+"Kinathukadavu","Myleripalayam","Nachipalayam",
+"Malumichampatti","Othakalmandapam","Samathur",
+"Suleeswaranpatti","Annamalai Hills"
+];
+
+// 🔥 Optional clean sort
+places.sort();
+
+function suggestFrom(value){
+    showList(value, "fromList", "from");
+}
+
+function suggestTo(value){
+    showList(value, "toList", "to");
+}
+
+function showList(value, listId, inputId){
+    let list = value === "" 
+        ? places 
+        : places.filter(p => p.toLowerCase().includes(value.toLowerCase()));
+
+    let html = "";
+    list.forEach(p=>{
+        html += `<div onclick="selectPlace('${p}','${inputId}','${listId}')">${p}</div>`;
+    });
+
+    document.getElementById(listId).innerHTML = html;
+}
+
+function selectPlace(val, inputId, listId){
+    document.getElementById(inputId).value = val;
+    document.getElementById(listId).innerHTML = "";
+}
+
+document.addEventListener("click", function(e) {
+    if (!e.target.closest(".input-box")) {
+        document.getElementById("fromList").innerHTML = "";
+        document.getElementById("toList").innerHTML = "";
+    }
+});
+</script>
+
+</body>
+</html>
