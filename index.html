@@ -81,6 +81,11 @@ button {
     <h1>🚌 Real-Time Vehicle Tracking</h1>
     <p>Find your bus easily</p>
 
+    <!-- 🔐 LOGIN BUTTON -->
+    <a href="login.html">
+        <button>Login</button>
+    </a>
+
     <div class="input-box">
         <input type="text" id="from" placeholder="From"
         onkeyup="suggestFrom(this.value)" onclick="suggestFrom(this.value)" autocomplete="off">
@@ -109,71 +114,7 @@ function trackBus() {
     window.location.href = "map1.html?from=" + encodeURIComponent(from) + "&to=" + encodeURIComponent(to);
 }
 
-const places = [
-"Ariyalur","Chengalpattu","Chennai","Coimbatore","Cuddalore",
-"Dharmapuri","Dindigul","Erode","Kallakurichi","Kancheepuram",
-"Kanniyakumari","Karur","Krishnagiri","Madurai","Mayiladuthurai",
-"Nagapattinam","Namakkal","Perambalur","Pudukkottai",
-"Ramanathapuram","Ranipet","Salem","Sivaganga","Tenkasi",
-"Thanjavur","Theni","The Nilgiris","Thiruvallur","Thiruvarur",
-"Thoothukkudi","Tiruchirappalli","Tirunelveli","Tirupathur",
-"Tiruppur","Tiruvannamalai","Vellore","Viluppuram","Virudhunagar",
-
-// 🔥 Main towns
-"Mettupalayam","Pollachi","Valparai","Gudalur","Karamadai",
-"Karumathampatti","Madukkarai",
-
-// 🔥 Central Coimbatore
-"Townhall","Selvapuram","Rathinapuri","Tatabad","Sivananda Colony",
-"Gandhipuram","Ukkadam","Kottaimedu","Ramnagar","Sukrawarpettai",
-"R.S Puram","Saibaba Colony","Venkatapuram","Ponnairajapuram",
-"Race Course","Gopalapuram","Sidhapudur","Avarampalayam",
-
-// 🔥 South Coimbatore
-"Sundakkamuthur","Podanur","Karumbukadai","Sundarapuram",
-"Kurichi","Eachanari","Chettipalayam","Vellalore",
-"Kuniyamuthur","Sugunapuram","Kovaipudur","Sokkampudhur",
-"Thondamuthur","Madhampatti","Kuppanur",
-
-// 🔥 East Coimbatore
-"Ramnathapuram","Singanallur","Puliakulam","Ondipudur",
-"Varadarajapuram","Peelamedu","Meena Estate","Udayampalayam",
-"Nanjundapuram","Nehru Nagar","Vilankurichi","Ganapathy",
-"Cheranmanagar","Nallampalayam","Gandhimanagar",
-"Chinniampalayam","Sowripalayam","G.V Residency","Uppilipalayam",
-
-// 🔥 West Coimbatore
-"Perur","Vadavalli","Veerakeralam","Veedapatti",
-"P.N.Pudur","Kalveerampalayam",
-
-// 🔥 North Suburbs
-"Periyanaickenpalayam","Poochiyur","Ravathakollanur",
-
-// 🔥 North-West
-"Thadagam","Maruthamalai","Pannimadai",
-
-// 🔥 North-East
-"Saravanampatti","Kalapatti","Keeranatham","Pachapalayam",
-"Annur","Ganesapuram","Kariampalayam","Kovilpalayam","Kurumbapalayam",
-
-// 🔥 South-West
-"Walayar","K.G Chavadi","Ettimadai","Odaiyakulam",
-"Thirumalayampalayam",
-
-// 🔥 East Suburbs
-"Neelambur","Somanur","Irugur","Sulur",
-
-// 🔥 West Suburbs
-"Pooluvapatti","Karunya Nagar","Thenkarai","Narasipuram",
-"Puthur","Alanthurai",
-
-// 🔥 South Suburbs
-"Kinathukadavu","Myleripalayam","Nachipalayam",
-"Malumichampatti","Othakalmandapam","Samathur",
-"Suleeswaranpatti","Annamalai Hills"
-];
-
-// 🔥 Optional clean sort
+const places = ["Chennai","Coimbatore","Madurai","Salem","Trichy","Erode"];
 places.sort();
 
 function suggestFrom(value){
@@ -209,6 +150,6 @@ document.addEventListener("click", function(e) {
     }
 });
 </script>
-    
+
 </body>
 </html>
