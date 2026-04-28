@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Tracking Result</title>
+<title>Map Result</title>
 </head>
-<body>
 
-<h1>Bus Tracking Result</h1>
+<body style="text-align:center; margin-top:50px;">
+
+<h2>Bus Route Details</h2>
 
 <p id="result"></p>
 
@@ -14,8 +15,15 @@ const params = new URLSearchParams(window.location.search);
 const from = params.get("from");
 const to = params.get("to");
 
+// 🔥 Dummy distance + time logic
+let distance = Math.floor(Math.random() * 50) + 5; // km
+let time = Math.floor(distance * 2); // minutes
+
 document.getElementById("result").innerHTML =
-    "From: " + from + "<br>To: " + to;
+    "From: " + from + "<br>" +
+    "To: " + to + "<br><br>" +
+    "Distance: " + distance + " km<br>" +
+    "Estimated Time: " + time + " minutes";
 </script>
 
 </body>
