@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Track Bus</title>
+</head>
+
+<body style="text-align:center; margin-top:50px;">
+
+<h1>🚌 Vehicle Tracking</h1>
+
+<input type="text" id="from" placeholder="From"><br><br>
+<input type="text" id="to" placeholder="To"><br><br>
+
+<button onclick="trackBus()">Track Bus</button>
+
+<script>
+function trackBus() {
+    let from = document.getElementById("from").value;
+    let to = document.getElementById("to").value;
+
+    if(from === "" || to === "") {
+        alert("Enter locations");
+        return;
+    }
+
+    window.location.href = "map1.html?from=" + from + "&to=" + to;
+}
+</script>
+
+</body>
+</html>
